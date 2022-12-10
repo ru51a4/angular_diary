@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class ApiService {
-  public apiUrl = "http://diary.su"//"http://laraveldiary.1123875-cc97019.tw1.ru";
+  public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru";
 
   constructor(public global: GlobalService, private http: HttpClient, private router: Router) {
   }

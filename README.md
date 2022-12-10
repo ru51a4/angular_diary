@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://refuge-diary.surge.sh
+http://supreme-carpenter.surge.sh
