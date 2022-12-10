@@ -12,7 +12,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 
 export class EditpostComponent implements OnInit {
 
-  constructor(public api: ApiService, private router: Router) {
+  constructor(public api: ApiService, private router: Router, private route: ActivatedRoute) {
 
 
   }
@@ -21,21 +21,46 @@ export class EditpostComponent implements OnInit {
     message: new FormControl(''),
   });
 
-  ngOnInit() {
+  public is_op = false;
 
+  ngOnInit() {
+    // @ts-ignore
+    this.api.getDiary(this.route.snapshot.queryParams["diaryId"]).subscribe((data: any[]) => {
+      let message = data.find((item) => item.id == this.route.snapshot.queryParams["id"]).message;
+      if (data[0].id == this.route.snapshot.queryParams["id"]) {
+        this.is_op = true;
+      }
+      this.postForm.patchValue({
+        message: message
+      });
+    });
   }
 
-  delete() {
+  delete(e: any) {
+    e.preventDefault();
+    this.api.deletePost(this.route.snapshot.queryParams["id"]).subscribe(() => {
+      if (this.is_op) {
+        this.router.navigate(
+          [''],
+          {}
+        );
+      } else {
+        this.router.navigate(
+          ['/diary'],
+          {queryParams: {id: this.route.snapshot.queryParams["diaryId"]}}
+        );
+      }
+    })
   }
 
   edit() {
-    let name = this.postForm.value.name;
-    let desc = this.postForm.value.desc;
+    let message = this.postForm.value.message;
 
-    this.api.createDiary(name, desc).subscribe((data: any) => {
+    this.api.editPost(this.route.snapshot.queryParams["id"], message).subscribe((data: any) => {
+
       this.router.navigate(
         ['/diary'],
-        {queryParams: {id: data.id}}
+        {queryParams: {id: data.diary_id}}
       );
     })
   }

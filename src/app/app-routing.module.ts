@@ -9,7 +9,7 @@ const routes: Routes = [{
   component: ContentLayoutComponent,
   children: [
     {
-      path: '',
+      path: 'dashboard/:page',
       loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       canActivate: [AuthGuard]
     },
@@ -26,6 +26,15 @@ const routes: Routes = [{
     {
       path: 'create-diary',
       loadChildren: () => import('./pages/adddiary/adddiary.module').then(m => m.AdddiaryModule),
+      canActivate: [AuthGuard]
+    }, {
+      path: 'edit-post',
+      loadChildren: () => import('./pages/editpost/editpost.module').then(m => m.EditpostModule),
+      canActivate: [AuthGuard]
+    },
+    {
+      path: '**',
+      loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       canActivate: [AuthGuard]
     },]
 }];

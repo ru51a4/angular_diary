@@ -22,9 +22,11 @@ export class DiaryComponent implements OnInit {
     message: new FormControl(''),
   });
   posts: any = [];
+  diaryId: any;
 
   ngOnInit() {
     this.fetchData();
+    this.diaryId = this.route.snapshot.queryParams["id"]
   }
 
   fetchData() {

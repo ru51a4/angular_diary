@@ -38,3 +38,26 @@
     </a>
   </div>
 </div>
+<div class="row mt-4">
+  <nav aria-label="...">
+    <ul class="pagination d-flex justify-content-end pagination-sm">
+      <ng-template [ngIf]="cPage - 1 >= 1">
+        <a style="cursor: pointer" (click)="go(cPage-1)">
+          <li class="page-item" aria-current="page">
+            <span class="page-link">prev</span>
+          </li>
+        </a>
+      </ng-template>
+      <li class="page-item mx-2 active" aria-current="page">
+        <span class="page-link">{{cPage}}</span>
+      </li>
+      <ng-template [ngIf]="cPage + 1 <= page">
+        <a style="cursor: pointer" (click)="go(cPage+1)">
+          <li class="page-item" aria-current="page">
+            <span class="page-link">next</span>
+          </li>
+        </a>
+      </ng-template>
+    </ul>
+  </nav>
+</div>

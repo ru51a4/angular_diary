@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class ApiService {
-  public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru";
+  public apiUrl = "http://diary.su"//"http://laraveldiary.1123875-cc97019.tw1.ru";
 
   constructor(public global: GlobalService, private http: HttpClient, private router: Router) {
   }
@@ -55,13 +55,13 @@ export class ApiService {
     this.router.navigate(['/login'])
   }
 
-  getDashboard() {
+  getDashboard(page: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.get(`${this.apiUrl}/api-dashboard`, requestOptions)
+    return this.http.get(`${this.apiUrl}/api-dashboard/${page}`, requestOptions)
   }
 
   getDiary(id: any) {
@@ -91,4 +91,21 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/api-creatediary`, {name, desc}, requestOptions)
   }
 
+  editPost(idPost: any, message: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-editpost/${idPost}`, {message}, requestOptions)
+  }
+
+  deletePost(idPost: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-deletepost/${idPost}`, {}, requestOptions)
+  }
 }

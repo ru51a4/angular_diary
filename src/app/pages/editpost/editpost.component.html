@@ -17,8 +17,9 @@
       </div>
       <div class="d-flex justify-content-end">
         <a>
-          <div (click)="delete()" name="btn" value="delete" style="margin-right: 20px"
-               class="btn btn-primary mt-2">Удалить
+          <div (click)="delete($event)" name="btn" value="delete" style="margin-right: 20px"
+               class="btn btn-primary mt-2">
+            <span *ngIf="!is_op">Удалить</span><span *ngIf="is_op">Удалить дневник</span>
           </div>
         </a>
         <button name="btn" type="submit" class="btn btn-primary mt-2 ml-2">

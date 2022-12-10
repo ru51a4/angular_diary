@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://unwieldy-hammer.surge.sh
+http://refuge-diary.surge.sh
