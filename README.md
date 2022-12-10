@@ -1,2 +1,2 @@
-фронт дневничков на angular
-difficult-hand.surge.sh
+фронт дневничков на angular  
+http://pink-group.surge.sh
