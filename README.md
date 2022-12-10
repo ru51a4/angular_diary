@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://pink-group.surge.sh
+http://tight-industry.surge.sh
