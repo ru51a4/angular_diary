@@ -1,6 +1,6 @@
 <div class="row">
   <div class="my-4">
-    <a href="/forms/blog">
+    <a routerLink="/create-diary">
       <button type="submit" class="btn btn-primary">Создать блог</button>
     </a>
   </div>
@@ -14,12 +14,14 @@
 
             <b>{{d.user.name}}</b>
 
-            <p *ngIf="d.user.statuses.length === 0" class="status">
+            <p *ngIf="d?.user?.statuses.length === 0" class="status">
               Блогер
             </p>
-            <p *ngFor="let s in d.user.statuses" class="status">
-              {{s}}
-            </p>
+            <ng-template *ngFor="let s of d.user.statuses">
+              <p class="status">
+                {{s.name}}
+              </p>
+            </ng-template>
 
           </div>
           <img *ngIf="!d.user.avatar" class="avatar"

@@ -71,6 +71,24 @@ export class ApiService {
     });
     const requestOptions = {headers: headers};
     return this.http.get(`${this.apiUrl}/api-diary/${id}`, requestOptions)
-
   }
+
+  addPost(idDiary: any, message: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-createpost/${idDiary}`, {message}, requestOptions)
+  }
+
+  createDiary(name: any, desc: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-creatediary`, {name, desc}, requestOptions)
+  }
+
 }

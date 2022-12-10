@@ -22,7 +22,12 @@ const routes: Routes = [{
       path: 'login',
       loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule),
       canActivate: []
-    }]
+    },
+    {
+      path: 'create-diary',
+      loadChildren: () => import('./pages/adddiary/adddiary.module').then(m => m.AdddiaryModule),
+      canActivate: [AuthGuard]
+    },]
 }];
 
 @NgModule({

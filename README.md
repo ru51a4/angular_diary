@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://tight-industry.surge.sh
+http://unwieldy-hammer.surge.sh

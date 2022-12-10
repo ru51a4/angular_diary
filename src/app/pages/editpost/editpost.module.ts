@@ -1,18 +1,18 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DiaryRoutingModule} from "./diary-routing.module";
-import {DiaryComponent} from "./diary.component";
+import {EditpostComponent} from "./editpost.component";
+import {EditpostRoutingModule} from "./editpost-routing.module";
 
 
 @NgModule({
-  declarations: [DiaryComponent],
+  declarations: [EditpostComponent],
   imports: [
     CommonModule,
-    DiaryRoutingModule,
+    EditpostRoutingModule,
     FormsModule,
     ReactiveFormsModule,
   ]
 })
-export class DiaryModule {
+export class EditpostModule {
 }

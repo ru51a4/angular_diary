@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../api.service";
 import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 import {filter, Subject} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-diary',
@@ -17,13 +18,26 @@ export class DiaryComponent implements OnInit {
 
   }
 
+  postForm = new FormGroup({
+    message: new FormControl(''),
+  });
   posts: any = [];
 
   ngOnInit() {
+    this.fetchData();
+  }
+
+  fetchData() {
     this.api.getDiary(this.route.snapshot.queryParams["id"]).subscribe((data) => {
-      console.log(data);
       this.posts = data;
     })
+  }
 
+  add() {
+    let message = this.postForm.value.message;
+    this.api.addPost(this.route.snapshot.queryParams["id"], message).subscribe(() => {
+      this.fetchData();
+      this.postForm.reset();
+    })
   }
 }
