@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://eatable-trucks.surge.sh
+http://cynical-tooth.surge.sh
