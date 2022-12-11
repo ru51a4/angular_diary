@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {ApiService} from "../../api.service";
 import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 import {filter, Subject} from "rxjs";
@@ -12,12 +12,21 @@ import {PostComponent} from "./post/post.component";
   styleUrls: ['./diary.component.css']
 })
 
-export class DiaryComponent implements OnInit {
+export class DiaryComponent implements OnInit, AfterContentChecked {
 
 
   constructor(public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog) {
 
 
+  }
+
+  ngAfterContentChecked() {
+    document.querySelectorAll("span.reply").forEach((item: any) => {
+      item.onclick = (item: any) => {
+        let id = item.target.innerText.match(/\d+/g).join('')
+        this.openPost(id);
+      }
+    })
   }
 
   postForm = new FormGroup({
@@ -40,13 +49,15 @@ export class DiaryComponent implements OnInit {
     this.api.getDiary(this.route.snapshot.queryParams["id"]).subscribe((data: any) => {
       this.posts = data.p;
       this.replys = data.r;
+
+
     })
   }
 
   openPost(id: any) {
     this.dialog.open(PostComponent, {
       width: '250px',
-      data: {posts: this.posts, id: id, replys: this.replys},
+      data: {posts: this.posts, id: Number(id), replys: this.replys},
       closeOnNavigation: true
     });
 
