@@ -22,7 +22,7 @@ export class PostComponent implements AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    document.querySelectorAll("span.reply").forEach((item: any) => {
+    document.querySelectorAll(`div[cid="${this.data.id}"] span.reply`).forEach((item: any) => {
       item.onclick = (item: any) => {
         let id = item.target.innerText.match(/\d+/g).join('')
         this.openPost(id);
