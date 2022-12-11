@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="card">
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">avatar url:</label>
+        <input type="text" [(ngModel)]="url" [value]="global.userAvatar|async" class="form-control" name="avatar"
+               id="exampleFormControlInput1">
+      </div>
+      <div class="mb-3">
+        <button type="submit" (click)="update()" class="btn btn-primary">Изменить
+
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>

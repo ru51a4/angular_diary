@@ -11,6 +11,7 @@ export class GlobalService {
   }
 
   userName = new Subject<String>();
+  userAvatar = new Subject<String>();
 
   setUserName(name: any) {
     this.userName.next(name);

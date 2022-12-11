@@ -23,6 +23,7 @@ export class ApiService {
     let data: any = await this.http.post(`${this.apiUrl}/api-get_user`, {token: this.userToken}).toPromise();
     if (data?.user?.name) {
       this.global.setUserName(data.user.name);
+      this.global.userAvatar.next(data.user.avatar);
     } else {
       this.logout();
     }
@@ -107,5 +108,15 @@ export class ApiService {
     });
     const requestOptions = {headers: headers};
     return this.http.post(`${this.apiUrl}/api-deletepost/${idPost}`, {}, requestOptions)
+  }
+
+  updateUser(avatar: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-updateuser`, {avatar}, requestOptions)
+
   }
 }

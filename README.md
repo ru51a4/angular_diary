@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://supreme-carpenter.surge.sh
+http://eatable-trucks.surge.sh

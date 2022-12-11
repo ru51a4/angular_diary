@@ -31,6 +31,10 @@ const routes: Routes = [{
       path: 'edit-post',
       loadChildren: () => import('./pages/editpost/editpost.module').then(m => m.EditpostModule),
       canActivate: [AuthGuard]
+    },{
+      path: 'cabinet',
+      loadChildren: () => import('./pages/cabinet/cabinet.module').then(m => m.CabinetModule),
+      canActivate: [AuthGuard]
     },
     {
       path: '**',
