@@ -31,16 +31,6 @@ export class ContentLayoutComponent {
     }
 
     getBg();
-
-    document.addEventListener("DOMContentLoaded", () => {
-      // @ts-ignore
-      document.querySelector("footer").addEventListener('click', event => {
-        console.log("asd")
-        document.body.style.background = `url(https://thumbs.gfycat.com/PotableEmbarrassedFrenchbulldog-max-1mb.gif) repeat`;
-        getBg();
-      });
-
-    })
   }
 
   logout() {

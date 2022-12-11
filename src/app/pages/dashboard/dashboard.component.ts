@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.fetchData()
     this.router.events.subscribe((val) => {
-      if(val instanceof NavigationEnd) {
+      if (val instanceof NavigationEnd) {
         this.fetchData();
       }
     });

@@ -1,0 +1,40 @@
+<div class="col-12 card d-flex flex-row">
+  <div class="card-avatar d-flex flex-column justify-content-start">
+    <div class="nickname nickname-author">
+
+      <b>{{post.user.name}}</b>
+
+      <p *ngIf="post.user.statuses.length === 0" class="status">
+        Блогер
+      </p>
+      <p *ngFor="let s in post.user.statuses" class="status">
+        {{s}}
+      </p>
+
+    </div>
+    <img *ngIf="!post.user.avatar" class="avatar"
+         src="http://ufland.moy.su/camera_a.gif">
+    <img *ngIf="post.user.avatar" class="avatar"
+         [src]="post.user.avatar">
+  </div>
+
+  <div class="card-body diary">
+    <div class="card--header">
+      <button
+              style=" font-size: 10px; padding: 0px; max-height: 25px;"
+              class="btn btn-primary btn-reply">>>{{post.id}}
+      </button>
+    </div>
+    <div class="card-text" [innerHTML]="post.message">
+    </div>
+    <div class="card-bottom">
+      <div style="">
+<span *ngFor="let r of data.replys[post.id]" (click)="openPost(r)" style="background-color: unset!important; color: #FF6600;"
+      class="reply">>>{{r}}</span>
+      </div>
+      <div>
+
+      </div>
+    </div>
+  </div>
+</div>

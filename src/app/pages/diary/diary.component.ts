@@ -3,6 +3,8 @@ import {ApiService} from "../../api.service";
 import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 import {filter, Subject} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {PostComponent} from "./post/post.component";
 
 @Component({
   selector: 'app-diary',
@@ -13,7 +15,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class DiaryComponent implements OnInit {
 
 
-  constructor(public api: ApiService, private route: ActivatedRoute) {
+  constructor(public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog) {
 
 
   }
@@ -23,6 +25,11 @@ export class DiaryComponent implements OnInit {
   });
   posts: any = [];
   diaryId: any;
+  replys: any = [];
+
+  reply(id: any) {
+    this.postForm.patchValue({message: this.postForm.value.message + `<reply>${id}</reply>`})
+  }
 
   ngOnInit() {
     this.fetchData();
@@ -30,9 +37,19 @@ export class DiaryComponent implements OnInit {
   }
 
   fetchData() {
-    this.api.getDiary(this.route.snapshot.queryParams["id"]).subscribe((data) => {
-      this.posts = data;
+    this.api.getDiary(this.route.snapshot.queryParams["id"]).subscribe((data: any) => {
+      this.posts = data.p;
+      this.replys = data.r;
     })
+  }
+
+  openPost(id: any) {
+    this.dialog.open(PostComponent, {
+      width: '250px',
+      data: {posts: this.posts, id: id, replys: this.replys},
+      closeOnNavigation: true
+    });
+
   }
 
   add() {
