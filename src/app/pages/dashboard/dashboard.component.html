@@ -7,7 +7,7 @@
 </div>
 <div class="row">
   <div class="d-flex flex-column justify-content-start dashboard">
-    <div style="cursor:pointer;" *ngFor="let d of diary" routerLink="/diary" [queryParams]="{id: d.id}">
+    <a style="cursor:pointer;" *ngFor="let d of diary" routerLink="/diary" [queryParams]="{id: d.id}">
       <div class="col-12 card d-flex flex-row">
         <div class="card-avatar d-flex flex-column justify-content-start">
           <div class="nickname nickname-author">
@@ -35,7 +35,7 @@
           <p class="card-text">{{d.description}}</p>
         </div>
       </div>
-    </div>
+    </a>
   </div>
 </div>
 <div class="row mt-4">

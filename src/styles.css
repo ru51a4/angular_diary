@@ -25,7 +25,11 @@
   padding: 0px !important;
 }
 
-div:not(:last-child) .card {
+a .card:hover {
+  color: black;
+}
+
+a:not(:last-child) .card {
   border-bottom: 0px !important;
 }
 
@@ -97,8 +101,8 @@ footer {
 }
 
 .container {
-  margin-left: auto!important;
-  margin-right: auto!important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .post_image {
