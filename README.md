@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://cynical-tooth.surge.sh
+http://shaggy-pen.surge.sh

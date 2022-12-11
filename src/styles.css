@@ -25,7 +25,7 @@
   padding: 0px !important;
 }
 
-a:not(:last-child) .card {
+div:not(:last-child) .card {
   border-bottom: 0px !important;
 }
 
