@@ -21,7 +21,7 @@ export class CabinetComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.url = this.global.user.getValue().avatar;
   }
 
 

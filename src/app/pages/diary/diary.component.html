@@ -41,7 +41,8 @@
                   class="reply">>>{{r}}</span>
           </div>
           <div>
-            <a routerLink="/edit-post" [queryParams]="{diaryId: diaryId,id: post.id}">edit</a>
+            <a *ngIf="(global.user|async)?.id == post['user_id']" routerLink="/edit-post"
+                  [queryParams]="{diaryId: diaryId,id: post.id}">edit</a>
 
           </div>
         </div>

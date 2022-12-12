@@ -16,6 +16,8 @@ export class PostComponent implements AfterContentChecked {
   openPost(id: any) {
     this.dialog.open(PostComponent, {
       width: '250px',
+      hasBackdrop: true,
+      backdropClass: 'fuck',
       data: {posts: this.data.posts, id: Number(id), replys: this.data.replys},
       closeOnNavigation: true
     });

@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://hoc-toothbrush.surge.sh
+http://ugly-basin.surge.sh

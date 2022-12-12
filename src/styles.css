@@ -108,7 +108,8 @@ footer {
 }
 
 .post_image {
-  max-width: 300px;
+  width: 300px;
+  max-width: 100%;
 }
 
 .reply {

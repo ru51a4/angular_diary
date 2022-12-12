@@ -25,14 +25,20 @@ export class EditpostComponent implements OnInit {
 
   ngOnInit() {
     // @ts-ignore
-    this.api.getDiary(this.route.snapshot.queryParams["diaryId"]).subscribe((data: any[]) => {
+    this.api.getDiary(this.route.snapshot.queryParams["diaryId"]).subscribe((data: any) => {
+      data = data.p;
+      // @ts-ignore
       let message = data.find((item) => item.id == this.route.snapshot.queryParams["id"]).message;
+      // @ts-ignore
       if (data[0].id == this.route.snapshot.queryParams["id"]) {
         this.is_op = true;
       }
-      this.postForm.patchValue({
-        message: message
-      });
+      this.api.getPost(this.route.snapshot.queryParams["id"]).subscribe((data: any) => {
+        this.postForm.patchValue({
+          message: data.message
+        });
+      })
+
     });
   }
 

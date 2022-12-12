@@ -178,12 +178,12 @@
 
     <div class="auth d-flex flex-row align-items-center">
       <a routerLink="/cabinet">
-        <div class="nickname-author">{{this.global.userName | async}}</div>
+        <div class="nickname-author">{{(this.global.user | async).name}}</div>
       </a>
-      <a *ngIf="this.global.userName | async">
+      <a *ngIf="this.global.user | async">
         <button (click)="logout()" type="submit" class="btn btn-primary">Выйти</button>
       </a>
-      <a *ngIf="!(this.global.userName | async)" routerLink="/login">
+      <a *ngIf="!(this.global.user | async)" routerLink="/login">
         <button type="submit" class="btn btn-primary">Войти</button>
       </a>
     </div>

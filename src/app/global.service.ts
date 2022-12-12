@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +10,10 @@ export class GlobalService {
   constructor() {
   }
 
-  userName = new Subject<String>();
-  userAvatar = new Subject<String>();
+  user = new BehaviorSubject<any>({});
 
-  setUserName(name: any) {
-    this.userName.next(name);
+  setUser(data: any) {
+    console.log(data);
+    this.user.next(data);
   }
 }

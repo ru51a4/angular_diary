@@ -22,8 +22,7 @@ export class ApiService {
   async check() {
     let data: any = await this.http.post(`${this.apiUrl}/api-get_user`, {token: this.userToken}).toPromise();
     if (data?.user?.name) {
-      this.global.setUserName(data.user.name);
-      this.global.userAvatar.next(data.user.avatar);
+      this.global.setUser(data.user);
     } else {
       this.logout();
     }
@@ -51,7 +50,7 @@ export class ApiService {
 
   logout() {
     localStorage.setItem("jwt", "")
-    this.global.setUserName("")
+    this.global.setUser(null)
     this.userToken = '';
     this.router.navigate(['/login'])
   }
@@ -117,6 +116,15 @@ export class ApiService {
     });
     const requestOptions = {headers: headers};
     return this.http.post(`${this.apiUrl}/api-updateuser`, {avatar}, requestOptions)
+
+  }
+  getPost(postId: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.userToken}`
+    });
+    const requestOptions = {headers: headers};
+    return this.http.post(`${this.apiUrl}/api-getpost/${postId}`, {}, requestOptions)
 
   }
 }

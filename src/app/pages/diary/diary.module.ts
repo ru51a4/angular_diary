@@ -5,10 +5,11 @@ import {DiaryRoutingModule} from "./diary-routing.module";
 import {DiaryComponent} from "./diary.component";
 import {PostComponent} from "./post/post.component";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
+import {PostImageComponent} from "./post-image/post-image.component";
 
 
 @NgModule({
-  declarations: [DiaryComponent, PostComponent],
+  declarations: [DiaryComponent, PostComponent, PostImageComponent],
   imports: [
     CommonModule,
     DiaryRoutingModule,

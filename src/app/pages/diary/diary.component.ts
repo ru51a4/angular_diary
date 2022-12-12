@@ -5,6 +5,8 @@ import {filter, Subject} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {PostComponent} from "./post/post.component";
+import {GlobalService} from "../../global.service";
+import {PostImageComponent} from "./post-image/post-image.component";
 
 @Component({
   selector: 'app-diary',
@@ -15,7 +17,7 @@ import {PostComponent} from "./post/post.component";
 export class DiaryComponent implements OnInit, AfterContentChecked {
 
 
-  constructor(public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog) {
+  constructor(public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
 
 
   }
@@ -25,6 +27,12 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
       item.onclick = (item: any) => {
         let id = item.target.innerText.match(/\d+/g).join('')
         this.openPost(id);
+      }
+    })
+    document.querySelectorAll(".card-text img").forEach((item: any) => {
+      item.onclick = (item: any) => {
+        let src = item.target.src
+        this.openImage(src);
       }
     })
   }
@@ -58,9 +66,19 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
     this.dialog.open(PostComponent, {
       width: '250px',
       data: {posts: this.posts, id: Number(id), replys: this.replys},
+      hasBackdrop: true,
+      backdropClass: 'fuck',
       closeOnNavigation: true
     });
+  }
 
+  openImage(src: any) {
+    this.dialog.open(PostImageComponent, {
+      data: {src: src},
+      hasBackdrop: true,
+      backdropClass: 'fuck',
+      closeOnNavigation: true
+    });
   }
 
   add() {
