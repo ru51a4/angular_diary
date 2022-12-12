@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://ugly-basin.surge.sh
+http://messy-duck.surge.sh
