@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://messy-duck.surge.sh
+http://young-babies.surge.sh
