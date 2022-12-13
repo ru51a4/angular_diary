@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent {
   constructor(public api: ApiService, private router: Router) {
+    this.isRegister = false;
   }
 
   loginForm = new FormGroup({
