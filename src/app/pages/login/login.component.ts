@@ -19,7 +19,7 @@ export class LoginComponent {
   });
   isRegister = false;
 
-  register() {
+  register() { 
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
     let name = this.loginForm.value.name;

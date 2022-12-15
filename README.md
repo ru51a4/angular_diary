@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://bad-position.surge.sh
+http://nasty-hope.surge.sh
