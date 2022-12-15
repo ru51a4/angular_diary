@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class ApiService {
-  public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru";
+  public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru/api";
 
   constructor(public global: GlobalService, private http: HttpClient, private router: Router) {
   }
@@ -20,7 +20,7 @@ export class ApiService {
   }
 
   async check() {
-    let data: any = await this.http.post(`${this.apiUrl}/api-get_user`, {token: this.userToken}).toPromise();
+    let data: any = await this.http.post(`${this.apiUrl}/get_user`, {token: this.userToken}).toPromise();
     if (data?.user?.name) {
       this.global.setUser(data.user);
     } else {
@@ -31,13 +31,13 @@ export class ApiService {
 
   registerUser(email: any, password: any, name: any): any {
     let body = {email, password, name};
-    return this.http.post(`${this.apiUrl}/api-register`, body)
+    return this.http.post(`${this.apiUrl}/register`, body)
   }
 
   loginUser(email: any, password: any) {
     let body = {email, password};
     const check$ = new Subject();
-    this.http.post(`${this.apiUrl}/api-login`, body).subscribe((data: any) => {
+    this.http.post(`${this.apiUrl}/login`, body).subscribe((data: any) => {
       if (data.success) {
         this.userToken = data.token;
         localStorage.setItem("jwt", this.userToken)
@@ -61,7 +61,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.get(`${this.apiUrl}/api-dashboard/${page}`, requestOptions)
+    return this.http.get(`${this.apiUrl}/dashboard/${page}`, requestOptions)
   }
 
   getDiary(id: any) {
@@ -70,7 +70,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.get(`${this.apiUrl}/api-diary/${id}`, requestOptions)
+    return this.http.get(`${this.apiUrl}/diary/${id}`, requestOptions)
   }
 
   addPost(idDiary: any, message: any) {
@@ -79,7 +79,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-createpost/${idDiary}`, {message}, requestOptions)
+    return this.http.post(`${this.apiUrl}/createpost/${idDiary}`, {message}, requestOptions)
   }
 
   createDiary(name: any, desc: any) {
@@ -88,7 +88,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-creatediary`, {name, desc}, requestOptions)
+    return this.http.post(`${this.apiUrl}/creatediary`, {name, desc}, requestOptions)
   }
 
   editPost(idPost: any, message: any) {
@@ -97,7 +97,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-editpost/${idPost}`, {message}, requestOptions)
+    return this.http.post(`${this.apiUrl}/editpost/${idPost}`, {message}, requestOptions)
   }
 
   deletePost(idPost: any) {
@@ -106,7 +106,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-deletepost/${idPost}`, {}, requestOptions)
+    return this.http.post(`${this.apiUrl}/deletepost/${idPost}`, {}, requestOptions)
   }
 
   updateUser(avatar: any) {
@@ -115,7 +115,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-updateuser`, {avatar}, requestOptions)
+    return this.http.post(`${this.apiUrl}/updateuser`, {avatar}, requestOptions)
 
   }
   getPost(postId: any) {
@@ -124,7 +124,7 @@ export class ApiService {
       'Authorization': `Bearer ${this.userToken}`
     });
     const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/api-getpost/${postId}`, {}, requestOptions)
+    return this.http.post(`${this.apiUrl}/getpost/${postId}`, {}, requestOptions)
 
   }
 }

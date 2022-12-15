@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://adamant-cap.surge.sh
+http://bad-position.surge.sh
