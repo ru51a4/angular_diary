@@ -55,7 +55,8 @@ export class ApiService {
     this.router.navigate(['/login'])
   }
 
-  getDashboard(page: any) {
+  getDashboard(page: any) : any {
+    console.log(page)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`

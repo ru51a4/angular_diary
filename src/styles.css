@@ -59,7 +59,6 @@ a:not(:last-child) .card {
 }
 
 body {
-  background: url(https://thumbs.gfycat.com/PotableEmbarrassedFrenchbulldog-max-1mb.gif) repeat;
 }
 
 footer {
@@ -115,4 +114,7 @@ footer {
 .reply {
   cursor: pointer;
   background-color: #f6993f;
+}
+.container{
+  min-height: 110%;
 }
