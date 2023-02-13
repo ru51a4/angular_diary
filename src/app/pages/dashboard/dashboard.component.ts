@@ -1,6 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../api.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../api.service";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { Store } from '@ngrx/store';
+import { fetchDiarys, loadDiarys } from "./../../store/store.actions";
+import { selectDiarys } from 'src/app/store/store.selectors';
+import { filter, Observable, Subject } from "rxjs";
+
 
 @Component({
   selector: 'app-dashboard',
@@ -8,14 +13,14 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  constructor(public api: ApiService, private route: ActivatedRoute, private router: Router) {
+  storeState$: Observable<any>;
+
+
+  constructor(public api: ApiService, private route: ActivatedRoute, private store: Store<{ diarys: any[] }>, private router: Router) {
+    this.storeState$ = this.store.select(selectDiarys);
 
   }
-
-  public diary: any = [];
-  page: any;
   cPage = 1;
-
   ngOnInit() {
     this.fetchData()
     this.router.events.subscribe((val) => {
@@ -29,10 +34,10 @@ export class DashboardComponent implements OnInit {
     if (this.route.snapshot.params['page']) {
       this.cPage = Number(this.route.snapshot.params['page']);
     }
-    this.api.getDashboard(this.cPage).subscribe((data: any) => {
-      this.page = Number(data.p);
-      this.diary = data.d;
-    })
+
+    this.store.dispatch(fetchDiarys({ id: this.cPage }))
+
+
   }
 
   go(n: any) {

@@ -7,7 +7,7 @@
 </div>
 <div class="row">
   <div class="d-flex flex-column justify-content-start dashboard">
-    <a style="cursor:pointer;" *ngFor="let d of diary" routerLink="/diary" [queryParams]="{id: d.id}">
+    <a style="cursor:pointer;" *ngFor="let d of (storeState$|async).diarys.d" routerLink="/diary" [queryParams]="{id: d.id}">
       <div class="col-12 card d-flex flex-row">
         <div class="card-avatar d-flex flex-column justify-content-start">
           <div class="nickname nickname-author">
@@ -51,7 +51,7 @@
       <li class="page-item mx-2 active" aria-current="page">
         <span class="page-link">{{cPage}}</span>
       </li>
-      <ng-template [ngIf]="cPage + 1 <= page">
+      <ng-template [ngIf]="cPage + 1 <= (storeState$|async).diarys.p">
         <a style="cursor: pointer" (click)="go(cPage+1)">
           <li class="page-item" aria-current="page">
             <span class="page-link">next</span>

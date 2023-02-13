@@ -1,12 +1,16 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {ApiService} from "../../api.service";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
-import {filter, Subject} from "rxjs";
-import {FormControl, FormGroup} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {PostComponent} from "./post/post.component";
-import {GlobalService} from "../../global.service";
-import {PostImageComponent} from "./post-image/post-image.component";
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { ApiService } from "../../api.service";
+import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
+import { filter, Observable, Subject } from "rxjs";
+import { FormControl, FormGroup } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
+import { PostComponent } from "./post/post.component";
+import { GlobalService } from "../../global.service";
+import { PostImageComponent } from "./post-image/post-image.component";
+import { Store } from '@ngrx/store';
+import { selectPosts } from 'src/app/store/store.selectors';
+import { fetchPosts, loadDiarys } from "./../../store/store.actions";
+
 
 @Component({
   selector: 'app-diary',
@@ -16,10 +20,16 @@ import {PostImageComponent} from "./post-image/post-image.component";
 
 export class DiaryComponent implements OnInit, AfterContentChecked {
 
+  storeState$: Observable<any>;
 
-  constructor(public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
-
-
+  constructor(private store: Store<{ posts: { posts: { p: any[], r: any[] } } }>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
+    this.storeState$ = this.store.select(selectPosts);
+    this.storeState$.subscribe((data: any) => {
+      console.log(data);
+      data = data.posts;
+      this.posts = data.p;
+      this.replys = data.r;
+    })
   }
 
   ngAfterContentChecked() {
@@ -45,7 +55,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   replys: any = [];
 
   reply(id: any) {
-    this.postForm.patchValue({message: this.postForm.value.message + `<reply>${id}</reply>`})
+    this.postForm.patchValue({ message: this.postForm.value.message + `<reply>${id}</reply>` })
   }
 
   ngOnInit() {
@@ -54,18 +64,13 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   }
 
   fetchData() {
-    this.api.getDiary(this.route.snapshot.queryParams["id"]).subscribe((data: any) => {
-      this.posts = data.p;
-      this.replys = data.r;
-
-
-    })
+    this.store.dispatch(fetchPosts({ id: this.route.snapshot.queryParams["id"] }));
   }
 
   openPost(id: any) {
     this.dialog.open(PostComponent, {
       width: '250px',
-      data: {posts: this.posts, id: Number(id), replys: this.replys},
+      data: { posts: this.posts, id: Number(id), replys: this.replys },
       hasBackdrop: true,
       backdropClass: 'fuck',
       closeOnNavigation: true
@@ -74,7 +79,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   openImage(src: any) {
     this.dialog.open(PostImageComponent, {
-      data: {src: src},
+      data: { src: src },
       hasBackdrop: true,
       backdropClass: 'fuck',
       closeOnNavigation: true
