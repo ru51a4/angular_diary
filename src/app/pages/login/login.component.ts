@@ -20,6 +20,14 @@ export class LoginComponent {
   });
   isRegister = false;
 
+  get _email() : any {
+    return this.loginForm.get('email')
+  }
+
+  get _password(): any {
+    return this.loginForm.get('password')
+  }
+
   register() {
     this.isRegister = true;
     let email = this.loginForm.value.email;

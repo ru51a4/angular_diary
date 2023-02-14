@@ -26,6 +26,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
     this.storeState$ = this.store.select(selectPosts);
     this.storeState$.subscribe((data) => {
       this.posts = data.posts.p;
+      this.replys = data.posts.r;
       this.postForm.reset();
     })
   }
