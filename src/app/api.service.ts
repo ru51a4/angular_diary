@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Subject} from "rxjs";
-import {GlobalService} from "./global.service";
-import {Router} from "@angular/router";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { GlobalService } from "./global.service";
+import { Router } from "@angular/router";
+import { Store } from '@ngrx/store';
+import { SetUser } from "./store/store.actions";
 
 @Injectable({
   providedIn: 'root'
@@ -10,58 +12,54 @@ import {Router} from "@angular/router";
 export class ApiService {
   public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru/api";
 
-  constructor(public global: GlobalService, private http: HttpClient, private router: Router) {
+  constructor(public global: GlobalService, public store: Store<any>, private http: HttpClient, private router: Router) {
   }
 
-  public userToken = ""
+  public userToken :any = ""
 
   setUserToken(token: any) {
     this.userToken = token
   }
 
-  async check() {
-    let data: any = await this.http.post(`${this.apiUrl}/get_user`, {token: this.userToken}).toPromise();
-    if (data?.user?.name) {
-      this.global.setUser(data.user);
-    } else {
-      this.logout();
-    }
-
-  }
+ 
 
   registerUser(email: any, password: any, name: any): any {
-    let body = {email, password, name};
+    let body = { email, password, name };
     return this.http.post(`${this.apiUrl}/register`, body)
   }
 
   loginUser(email: any, password: any) {
-    let body = {email, password};
-    const check$ = new Subject();
-    this.http.post(`${this.apiUrl}/login`, body).subscribe((data: any) => {
-      if (data.success) {
-        this.userToken = data.token;
-        localStorage.setItem("jwt", this.userToken)
-        check$.next(true);
-      }
-      check$.next(false);
-    });
-    return check$
+    let body = { email, password };
+    return this.http.post(`${this.apiUrl}/login`, body)
+  }
+  async auth(data: any = {}) {
+    if (data?.token) {
+      this.userToken = data.token;
+      localStorage.setItem("jwt", this.userToken);
+    } else if (localStorage.getItem("jwt")) {
+      this.userToken = localStorage.getItem("jwt");
+    }
+    let check: any = await this.http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).toPromise();
+    if (check?.user?.name) {
+      console.log({check})
+      this.store.dispatch(SetUser(check.user));
+    } else {
+      this.logout();
+    }
   }
 
   logout() {
     localStorage.setItem("jwt", "")
-    this.global.setUser(null)
     this.userToken = '';
     this.router.navigate(['/login'])
   }
 
-  getDashboard(page: any) : any {
-    console.log(page)
+  getDashboard(page: any): any {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
+    const requestOptions = { headers: headers };
     return this.http.get(`${this.apiUrl}/dashboard/${page}`, requestOptions)
   }
 
@@ -70,7 +68,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
+    const requestOptions = { headers: headers };
     return this.http.get(`${this.apiUrl}/diary/${id}`, requestOptions)
   }
 
@@ -79,8 +77,8 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/createpost/${idDiary}`, {message}, requestOptions)
+    const requestOptions = { headers: headers };
+    return this.http.post(`${this.apiUrl}/createpost/${idDiary}`, { message }, requestOptions)
   }
 
   createDiary(name: any, desc: any) {
@@ -88,8 +86,8 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/creatediary`, {name, desc}, requestOptions)
+    const requestOptions = { headers: headers };
+    return this.http.post(`${this.apiUrl}/creatediary`, { name, desc }, requestOptions)
   }
 
   editPost(idPost: any, message: any) {
@@ -97,8 +95,8 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/editpost/${idPost}`, {message}, requestOptions)
+    const requestOptions = { headers: headers };
+    return this.http.post(`${this.apiUrl}/editpost/${idPost}`, { message }, requestOptions)
   }
 
   deletePost(idPost: any) {
@@ -106,7 +104,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
+    const requestOptions = { headers: headers };
     return this.http.post(`${this.apiUrl}/deletepost/${idPost}`, {}, requestOptions)
   }
 
@@ -115,8 +113,8 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
-    return this.http.post(`${this.apiUrl}/updateuser`, {avatar}, requestOptions)
+    const requestOptions = { headers: headers };
+    return this.http.post(`${this.apiUrl}/updateuser`, { avatar }, requestOptions)
 
   }
   getPost(postId: any) {
@@ -124,7 +122,7 @@ export class ApiService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.userToken}`
     });
-    const requestOptions = {headers: headers};
+    const requestOptions = { headers: headers };
     return this.http.post(`${this.apiUrl}/getpost/${postId}`, {}, requestOptions)
 
   }

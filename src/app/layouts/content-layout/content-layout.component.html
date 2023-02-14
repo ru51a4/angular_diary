@@ -143,15 +143,14 @@
         <span class="fs-4">refuge</span>
       </a>
     </div>
-
     <div class="auth d-flex flex-row align-items-center">
       <a routerLink="/cabinet">
-        <div class="nickname-author">{{(this.global.user | async)?.name}}</div>
+        <div class="nickname-author">{{user?.name}}</div>
       </a>
-      <a *ngIf="this.global.user | async">
+      <a *ngIf="user">
         <button (click)="logout()" type="submit" class="btn btn-primary">Выйти</button>
       </a>
-      <a *ngIf="!(this.global.user | async)" routerLink="/login">
+      <a *ngIf="!user" routerLink="/login">
         <button type="submit" class="btn btn-primary">Войти</button>
       </a>
     </div>

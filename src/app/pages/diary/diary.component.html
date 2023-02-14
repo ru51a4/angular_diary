@@ -1,23 +1,21 @@
 <div class="row d-flex justify-content-center">
   <div class="d-flex flex-column col-9 m-4 bg-light">
-    <h1 class="display-5 fw-bold">{{(storeState$|async).posts.p[0].diary.name}}</h1>
-    <p class="col-md-8 fs-4">{{(storeState$|async).posts.p[0].diary.description}}</p>
+    <h1 class="display-5 fw-bold">{{(storeState$|async)?.posts?.p[0]?.diary?.name}}</h1>
+    <p class="col-md-8 fs-4">{{(storeState$|async)?.posts?.p[0]?.diary?.description}}</p>
   </div>
 </div>
 <div class="row">
   <div class="d-flex flex-column justify-content-start">
-    <div *ngFor="let post of (storeState$|async).posts.p" class="col-12 card d-flex flex-row">
+    <div *ngFor="let post of (storeState$|async)?.posts?.p" class="col-12 card d-flex flex-row">
       <div class="card-avatar d-flex flex-column justify-content-start">
         <div class="nickname nickname-author">
 
           <b>{{post.user.name}}</b>
 
-          <p *ngIf="post.user.statuses.length === 0" class="status">
+          <p class="status">
             Блогер
           </p>
-          <p *ngFor="let s in post.user.statuses" class="status">
-            {{s}}
-          </p>
+          
 
         </div>
         <img *ngIf="!post.user.avatar" class="avatar"
@@ -41,7 +39,7 @@
                   class="reply">>>{{r}}</span>
           </div>
           <div>
-            <a *ngIf="(global.user|async)?.id == post['user_id']" routerLink="/edit-post"
+            <a *ngIf="(storeState$|async)?.user?.id == post['user_id']" routerLink="/edit-post"
                   [queryParams]="{diaryId: diaryId,id: post.id}">edit</a>
 
           </div>

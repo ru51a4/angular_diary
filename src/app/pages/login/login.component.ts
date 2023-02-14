@@ -1,42 +1,36 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {ApiService} from "../../api.service";
-import {Router} from "@angular/router";
-
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from "../../api.service";
+import { Router } from "@angular/router";
+import { Store } from '@ngrx/store';
+import { LoginUser, RegisterUser } from "./../../store/store.actions"
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  constructor(public api: ApiService, private router: Router) {
+  constructor(public api: ApiService, private router: Router, public store: Store<any>) {
   }
 
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    name: new FormControl('')
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    name: new FormControl('') 
   });
   isRegister = false;
 
-  register() { 
+  register() {
+    this.isRegister = true;
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
     let name = this.loginForm.value.name;
-    this.api.registerUser(email, password, name).subscribe((data: any) => {
-      if (data.success) {
-        this.isRegister = true;
-      }
-    })
+    this.store.dispatch(RegisterUser({ name, email, password }))
   }
 
   login() {
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
-    this.api.loginUser(email, password).subscribe((data: any) => {
-      if (data) {
-        this.router.navigate(['']);
-      }
-    })
+    this.store.dispatch(LoginUser({ email, password }));
   }
 }

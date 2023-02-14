@@ -17,10 +17,9 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot) {
     let jwt = localStorage.getItem('jwt');
     if (!jwt) {
-      this.router.navigate(['/login'])
-    }
-    this.api.setUserToken(jwt);
-    this.api.check();
+    this.router.navigate(['/login'])
+    } 
+    this.api.auth(); 
     return true;
   }
 

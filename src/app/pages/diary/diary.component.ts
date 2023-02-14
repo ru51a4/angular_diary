@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ApiService } from "../../api.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
 import { filter, Observable, Subject } from "rxjs";
@@ -10,25 +10,23 @@ import { PostImageComponent } from "./post-image/post-image.component";
 import { Store } from '@ngrx/store';
 import { selectPosts } from 'src/app/store/store.selectors';
 import { fetchPosts, loadDiarys } from "./../../store/store.actions";
-
+import { createPost } from './../../store/store.actions';
 
 @Component({
   selector: 'app-diary',
   templateUrl: './diary.component.html',
-  styleUrls: ['./diary.component.css']
+  styleUrls: ['./diary.component.css'],
 })
 
 export class DiaryComponent implements OnInit, AfterContentChecked {
 
   storeState$: Observable<any>;
 
-  constructor(private store: Store<{ posts: { posts: { p: any[], r: any[] } } }>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
+  constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
-    this.storeState$.subscribe((data: any) => {
-      console.log(data);
-      data = data.posts;
-      this.posts = data.p;
-      this.replys = data.r;
+    this.storeState$.subscribe((data) => {
+      this.posts = data.posts;
+      this.postForm.reset();
     })
   }
 
@@ -65,6 +63,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   fetchData() {
     this.store.dispatch(fetchPosts({ id: this.route.snapshot.queryParams["id"] }));
+    this.postForm.reset();
   }
 
   openPost(id: any) {
@@ -88,9 +87,6 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   add() {
     let message = this.postForm.value.message;
-    this.api.addPost(this.route.snapshot.queryParams["id"], message).subscribe(() => {
-      this.fetchData();
-      this.postForm.reset();
-    })
+    this.store.dispatch(createPost({ diaryId: this.route.snapshot.queryParams["id"], message: message, id: this.route.snapshot.queryParams["id"] }));
   }
 }

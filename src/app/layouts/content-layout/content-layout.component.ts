@@ -1,36 +1,21 @@
-import {Component} from '@angular/core';
-import {GlobalService} from "../../global.service";
-import {Router} from "@angular/router";
-import {ApiService} from "../../api.service";
-
+import { Component } from '@angular/core';
+import { GlobalService } from "../../global.service";
+import { Router } from "@angular/router";
+import { ApiService } from "../../api.service";
+import { Store } from '@ngrx/store';
+import { selectUser } from 'src/app/store/store.selectors';
 @Component({
   selector: 'app-content-layout',
   templateUrl: './content-layout.component.html',
   styleUrls: ['./content-layout.component.css']
 })
 export class ContentLayoutComponent {
-  constructor(public global: GlobalService, private router: Router, private api: ApiService) {
+  public storeState$: any;
+  public user: any;
+  constructor(public global: GlobalService, public store: Store<any>, private router: Router, private api: ApiService) {
+    this.storeState$ = this.store.select(selectUser);
+    this.storeState$.subscribe((data: any) => this.user = data.user);
 
-    function getRandomInt(min: any, max: any) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-    }
-
-    function getBg() {
-      fetch(`https://wall.alphacoders.com/api2.0/get.php?method=wallpaper_info&id=${getRandomInt(100000, 999999)}&auth=5319095c1bc840c137ad33138d7f997f`).then(response => response.json())
-        .then((data) => {
-          if (data?.wallpaper?.url_thumb) {
-            setTimeout(() => {
-              document.body.style.background = `url('${data.wallpaper.url_thumb}') repeat`;
-            }, 700)
-          } else {
-            getBg();
-          }
-        });
-    }
-
-    getBg();
   }
 
   logout() {

@@ -23,7 +23,7 @@ import { StoreEffects } from './store/store.effects';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({ posts: storeReducer, diarys: storeReducer }),
+    StoreModule.forRoot({ user: storeReducer, posts: storeReducer, diarys: storeReducer }),
     EffectsModule.forRoot([StoreEffects])
   ],
   providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }],

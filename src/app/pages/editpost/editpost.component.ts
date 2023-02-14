@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../api.service";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
-import {filter, Subject} from "rxjs";
-import {FormControl, FormGroup} from "@angular/forms";
-
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from "../../api.service";
+import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
+import { filter, Subject } from "rxjs";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Store } from '@ngrx/store';
+import { fetchPosts, getPost, editPost, deletePost } from 'src/app/store/store.actions';
+import { selectPosts } from 'src/app/store/store.selectors';
 @Component({
   selector: 'app-diary',
   templateUrl: './editpost.component.html',
@@ -11,9 +13,25 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 
 export class EditpostComponent implements OnInit {
+  storeState$: any;
+  constructor(public api: ApiService, public store: Store<any>, private router: Router, private route: ActivatedRoute) {
 
-  constructor(public api: ApiService, private router: Router, private route: ActivatedRoute) {
+    this.storeState$ = this.store.select(selectPosts);
+    this.storeState$.subscribe((data: any) => {
+      let cPost = data.cPost;
+      data = data.posts;
+      data = data.p;
+      // @ts-ignore
+      let message = data.find((item) => item.id == this.route.snapshot.queryParams["id"]).message;
+      // @ts-ignore
+      if (data[0].id == this.route.snapshot.queryParams["id"]) {
+        this.is_op = true;
+      }
+      this.postForm.patchValue({
+        message: cPost.message
+      });
 
+    })
 
   }
 
@@ -24,50 +42,17 @@ export class EditpostComponent implements OnInit {
   public is_op = false;
 
   ngOnInit() {
-    // @ts-ignore
-    this.api.getDiary(this.route.snapshot.queryParams["diaryId"]).subscribe((data: any) => {
-      data = data.p;
-      // @ts-ignore
-      let message = data.find((item) => item.id == this.route.snapshot.queryParams["id"]).message;
-      // @ts-ignore
-      if (data[0].id == this.route.snapshot.queryParams["id"]) {
-        this.is_op = true;
-      }
-      this.api.getPost(this.route.snapshot.queryParams["id"]).subscribe((data: any) => {
-        this.postForm.patchValue({
-          message: data.message
-        });
-      })
-
-    });
+    this.store.dispatch(fetchPosts({ id: this.route.snapshot.queryParams["diaryId"] }));
+    this.store.dispatch(getPost({ id: this.route.snapshot.queryParams["id"] }));
   }
 
   delete(e: any) {
     e.preventDefault();
-    this.api.deletePost(this.route.snapshot.queryParams["id"]).subscribe(() => {
-      if (this.is_op) {
-        this.router.navigate(
-          [''],
-          {}
-        );
-      } else {
-        this.router.navigate(
-          ['/diary'],
-          {queryParams: {id: this.route.snapshot.queryParams["diaryId"]}}
-        );
-      }
-    })
+    this.store.dispatch(deletePost({ id: this.route.snapshot.queryParams["id"], diaryId: this.route.snapshot.queryParams["diaryId"] }))
   }
 
   edit() {
     let message = this.postForm.value.message;
-
-    this.api.editPost(this.route.snapshot.queryParams["id"], message).subscribe((data: any) => {
-
-      this.router.navigate(
-        ['/diary'],
-        {queryParams: {id: data.diary_id}}
-      );
-    })
+    this.store.dispatch(editPost({ message, id: this.route.snapshot.queryParams["id"], diaryId: this.route.snapshot.queryParams["diaryId"] }))
   }
 }
