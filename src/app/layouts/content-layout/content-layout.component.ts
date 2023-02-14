@@ -21,5 +21,7 @@ export class ContentLayoutComponent {
   logout() {
     this.api.logout()
   }
+
 }
+
 

@@ -45,6 +45,11 @@ export class DashboardComponent implements OnInit {
 
   go(n: any) {
     this.router.navigate(['dashboard', n], {})
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
   ngOnDestroy() {
     this.destroy$.next(true);

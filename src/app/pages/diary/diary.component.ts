@@ -25,7 +25,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
     this.storeState$.subscribe((data) => {
-      this.posts = data.posts;
+      this.posts = data.posts.p;
       this.postForm.reset();
     })
   }
@@ -46,14 +46,14 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   }
 
   postForm = new FormGroup({
-    message: new FormControl(''),
+    message: new FormControl(""),
   });
   posts: any = [];
   diaryId: any;
   replys: any = [];
 
   reply(id: any) {
-    this.postForm.patchValue({ message: this.postForm.value.message + `<reply>${id}</reply>` })
+    this.postForm.patchValue({ message: (this.postForm?.value?.message ? this.postForm?.value?.message : '') + `<reply>${id}</reply>` })
   }
 
   ngOnInit() {

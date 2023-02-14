@@ -11,7 +11,7 @@ export class PostComponent implements AfterContentChecked {
 
   constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { replys: any[], posts: any[], id: number }) {
     this.post = (this.data.posts.find((item) => item.id === this.data.id));
-  }
+  } 
 
   openPost(id: any) {
     this.dialog.open(PostComponent, {
