@@ -48,7 +48,7 @@ export class EditpostComponent implements OnInit {
 
   delete(e: any) {
     e.preventDefault();
-    this.store.dispatch(deletePost({ id: this.route.snapshot.queryParams["id"], diaryId: this.route.snapshot.queryParams["diaryId"] }))
+    this.store.dispatch(deletePost({ is_op: this.is_op, id: this.route.snapshot.queryParams["id"], diaryId: this.route.snapshot.queryParams["diaryId"] }))
   }
 
   edit() {

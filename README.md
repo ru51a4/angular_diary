@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://numerous-rose.surge.sh
+http://upbeat-noise.surge.sh
