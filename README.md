@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://vengeful-sack.surge.sh
+http://hallowed-thread.surge.sh
