@@ -13,8 +13,8 @@ const routes: Routes = [{
       loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
       canActivate: [AuthGuard]
     },
-    {
-      path: 'diary',
+    { 
+      path: 'diary/:id',
       loadChildren: () => import('./pages/diary/diary.module').then(m => m.DiaryModule),
       canActivate: [AuthGuard]
     },

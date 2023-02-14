@@ -9,7 +9,6 @@ import { fetchDiarys } from './store.actions';
 import { Router } from '@angular/router';
 @Injectable()
 export class StoreEffects {
-  // Listen for the 'LOGIN' action
 
   constructor(private http: HttpClient, private actions$: Actions, public router: Router, public api: ApiService) { }
 
@@ -42,8 +41,7 @@ export class StoreEffects {
       switchMap((params: any) => this.api.createDiary(params.name, params.desc).pipe(
         map(data => data),
         tap((data: any) => this.router.navigate(
-          ['/diary'],
-          { queryParams: { id: data.id } }
+          ['/diary', data.id]
         )))
       ))
   });
@@ -57,7 +55,7 @@ export class StoreEffects {
           this.router.navigate(["/dashboard"]);
         }),
         catchError(() => of({ type: '[Login Component] Set User', status: "fail" }))
-        )
+      )
       ))
 
   });
@@ -108,8 +106,7 @@ export class StoreEffects {
       switchMap((params: any) => this.api.editPost(params.id, params.message).pipe(
         tap(async (data: any) => {
           this.router.navigate(
-            ['/diary'],
-            { queryParams: { id: params.diaryId } }
+            ['/diary',params.diaryId]
           );
         }),
         map(data => ({ type: '[Diary Component] Fetch posts', payload: data })),
@@ -129,8 +126,7 @@ export class StoreEffects {
             );
           } else {
             this.router.navigate(
-              ['/diary'],
-              { queryParams: { id: params.diaryId } }
+              ['/diary', params.diaryId]
             );
           }
         }),

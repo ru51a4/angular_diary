@@ -59,11 +59,11 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.fetchData();
-    this.diaryId = this.route.snapshot.queryParams["id"]
+    this.diaryId = this.route.snapshot.params["id"]
   }
 
   fetchData() {
-    this.store.dispatch(fetchPosts({ id: this.route.snapshot.queryParams["id"] }));
+    this.store.dispatch(fetchPosts({ id: this.route.snapshot.params["id"] }));
     this.postForm.reset();
   }
 
@@ -88,6 +88,6 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   add() {
     let message = this.postForm.value.message;
-    this.store.dispatch(createPost({ diaryId: this.route.snapshot.queryParams["id"], message: message, id: this.route.snapshot.queryParams["id"] }));
+    this.store.dispatch(createPost({ diaryId: this.route.snapshot.params['id'], message: message, id: this.route.snapshot.params['id'] }));
   }
 }

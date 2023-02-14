@@ -38,7 +38,9 @@ export class LoginComponent {
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
     let name = this.loginForm.value.name;
-    if(!name){
+    this.loginForm.controls.email.markAsDirty();
+    this.loginForm.controls.password.markAsDirty();
+    if(!name || !this.loginForm.valid){
       return;
     }
     this.store.dispatch(RegisterUser({ name, email, password }))

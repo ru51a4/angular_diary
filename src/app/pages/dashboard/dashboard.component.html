@@ -7,7 +7,7 @@
 </div>
 <div class="row">
   <div class="d-flex flex-column justify-content-start dashboard">
-    <a style="cursor:pointer;" *ngFor="let d of (storeState$|async).diarys.d" routerLink="/diary" [queryParams]="{id: d.id}">
+    <a style="cursor:pointer;" *ngFor="let d of (storeState$|async).diarys.d" [routerLink]="['/diary',d.id]">
       <div class="col-12 card d-flex flex-row">
         <div class="card-avatar d-flex flex-column justify-content-start">
           <div class="nickname nickname-author">
