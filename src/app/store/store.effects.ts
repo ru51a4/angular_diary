@@ -55,8 +55,11 @@ export class StoreEffects {
         tap(async (data: any) => {
           await this.api.auth(data)
           this.router.navigate(["/dashboard"]);
-        }))
+        }),
+        catchError(() => of({ type: '[Login Component] Set User', status: "fail" }))
+        )
       ))
+
   });
   register$ = createEffect((): any => {
     return this.actions$.pipe(
@@ -64,7 +67,7 @@ export class StoreEffects {
       switchMap((params: any) => this.api.registerUser(params.email, params.password, params.name).pipe(
         map((data: any) => {
           return { type: '[Login Component] login', email: params.email, password: params.password }
-        })) 
+        }))
       ))
   });
   updateUser$ = createEffect((): any => {
@@ -110,10 +113,10 @@ export class StoreEffects {
           );
         }),
         map(data => ({ type: '[Diary Component] Fetch posts', payload: data })),
-        )
+      )
       ))
   }, { dispatch: false });
- 
+
   deletePost$ = createEffect((): any => {
     return this.actions$.pipe(
       ofType('[Edit Component] Delete post'),

@@ -10,7 +10,7 @@ export const createDiary = createAction('[Adddiary Component] Create diary', pro
 
 export const LoginUser = createAction('[Login Component] login', props<any>());
 export const RegisterUser = createAction('[Login Component] register', props<any>());
-export const SetUser = createAction('Set User', props<any>());
+export const SetUser = createAction('[Login Component] Set User', props<any>());
 
 export const UpdateUser = createAction('[Cabinet Component] Update user', props<any>());
 

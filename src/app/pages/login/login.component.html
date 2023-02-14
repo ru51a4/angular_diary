@@ -11,11 +11,11 @@
                 width="150px">
             </div>
             <div class="form-group row">
-              <span style="color:red" *ngIf="isLogin && (user$|async).user">invalid auth</span>
+              <span style="color:red" *ngIf="isLogin && (user$|async).user.status === 'fail'">error</span>
               <label for="password" class="col-md-4 col-form-label text-md-right">name(only for register)</label>
 
               <div class="col-md-6">
-                <input id="name" formControlName="name" class="form-control" name="password" required
+                <input id="name" [class.is-invalid]="isRegister && !loginForm.value.name" formControlName="name" class="form-control" name="password" required
                   autocomplete="current-password">
 
               </div>
@@ -47,7 +47,7 @@
                 <button (click)="login()" type="submit" class="btn btn-primary">
                   login
                 </button>
-                <button *ngIf="!isRegister" (click)="register()" type="submit" class="btn btn-primary">
+                <button (click)="register()" type="submit" class="btn btn-primary">
                   register
                 </button>
               </div>

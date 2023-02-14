@@ -118,3 +118,6 @@ footer {
 .container{
   min-height: 110%;
 }
+body{
+  background: scroll #211F1A url('./assets/bg.jpg') repeat;
+}

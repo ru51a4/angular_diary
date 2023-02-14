@@ -34,18 +34,22 @@ export class LoginComponent {
 
   register() {
     this.isRegister = true;
+    this.isLogin = true;
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
     let name = this.loginForm.value.name;
+    if(!name){
+      return;
+    }
     this.store.dispatch(RegisterUser({ name, email, password }))
   }
 
   login() {
-    this.isLogin = true;
     this.loginForm.controls.email.markAsDirty();
     this.loginForm.controls.password.markAsDirty();
     let email = this.loginForm.value.email;
     let password = this.loginForm.value.password;
     this.store.dispatch(LoginUser({ email, password }));
+    this.isLogin = true;
   }
 }

@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://hurried-plastic.surge.sh
+http://spurious-road.surge.sh

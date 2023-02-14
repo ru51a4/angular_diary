@@ -15,13 +15,13 @@ export class ApiService {
   constructor(public global: GlobalService, public store: Store<any>, private http: HttpClient, private router: Router) {
   }
 
-  public userToken :any = ""
+  public userToken: any = ""
 
   setUserToken(token: any) {
     this.userToken = token
   }
 
- 
+
 
   registerUser(email: any, password: any, name: any): any {
     let body = { email, password, name };
@@ -41,7 +41,6 @@ export class ApiService {
     }
     let check: any = await this.http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).toPromise();
     if (check?.user?.name) {
-      console.log({check})
       this.store.dispatch(SetUser(check.user));
     } else {
       this.logout();
@@ -51,6 +50,7 @@ export class ApiService {
   logout() {
     localStorage.setItem("jwt", "")
     this.userToken = '';
+    this.store.dispatch(SetUser({}));
     this.router.navigate(['/login'])
   }
 
