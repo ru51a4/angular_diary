@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://hallowed-thread.surge.sh
+http://hurried-plastic.surge.sh
