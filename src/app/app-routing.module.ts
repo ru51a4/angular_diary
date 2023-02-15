@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {ContentLayoutComponent} from './layouts/content-layout/content-layout.component';
 import {AuthGuard} from "./auth.guard";
 import { DiaryResolver } from './pages/diary/diary.resolver';
+import { DashboardResolver } from './pages/dashboard/dashboard.resolver';
 
 
 const routes: Routes = [{
@@ -12,7 +13,9 @@ const routes: Routes = [{
     {
       path: 'dashboard/:page',
       loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard],
+      resolve: { resolver: DashboardResolver }
+
     },
     { 
       path: 'diary/:id',

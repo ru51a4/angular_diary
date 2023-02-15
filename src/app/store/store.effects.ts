@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { ApiService } from '../api.service';
-import { fetchDiarys } from './store.actions';
+import { loading, fetchDiarys } from './store.actions';
 import { Router } from '@angular/router';
 @Injectable()
 export class StoreEffects {
 
-  constructor(private http: HttpClient, private actions$: Actions, public router: Router, public api: ApiService) { }
+  constructor(private http: HttpClient, private actions$: Actions, public router: Router, public store: Store<any>, public api: ApiService) { }
 
 
   diarys$ = createEffect((): any => {
@@ -18,6 +18,7 @@ export class StoreEffects {
       ofType('[Dashboard Component] Fetch diarys'),
       mergeMap((params: any) => this.api.getDashboard(params.id)
         .pipe(
+          tap(() => this.store.dispatch(loading({ payload: false }))),
           map(data => ({ type: '[Dashboard Component] Load diarys', payload: data })),
           catchError(() => EMPTY)
         ),
@@ -30,6 +31,7 @@ export class StoreEffects {
       ofType('[Diary Component] Fetch posts'),
       switchMap((params: any) => this.api.getDiary(params.id)
         .pipe(
+          tap(() => this.store.dispatch(loading({ payload: false }))),
           map(data => ({ type: '[Diary Component] Load posts', payload: data })),
           catchError(() => EMPTY)
         ))
@@ -106,7 +108,7 @@ export class StoreEffects {
       switchMap((params: any) => this.api.editPost(params.id, params.message).pipe(
         tap(async (data: any) => {
           this.router.navigate(
-            ['/diary',params.diaryId]
+            ['/diary', params.diaryId]
           );
         }),
         map(data => ({ type: '[Diary Component] Fetch posts', payload: data })),

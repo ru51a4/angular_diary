@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreEffects } from './store/store.effects';
 import { DiaryResolver } from './pages/diary/diary.resolver';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { DashboardResolver } from './pages/dashboard/dashboard.resolver';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     StoreModule.forRoot({ user: storeReducer, posts: storeReducer, diarys: storeReducer }),
     EffectsModule.forRoot([StoreEffects]) 
   ],
-  providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }, DiaryResolver],
+  providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }, DiaryResolver, DashboardResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {

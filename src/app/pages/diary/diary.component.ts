@@ -96,7 +96,6 @@ export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
     this.store.dispatch(createPost({ diaryId: this.route.snapshot.params['id'], message: message, id: this.route.snapshot.params['id'] }));
   }
   ngOnDestroy() {
-    this.store.dispatch(loading({payload: false}));
     this.store.dispatch(loadPosts(null));
     this.destroy$.next(true);
     this.destroy$.complete();

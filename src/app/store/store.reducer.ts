@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import { loading, loadDiarys, loadPosts, loadPost, SetUser} from './store.actions';
 
 export const initialState = {
-    diarys: { p: [], d: [] },
+    diarys: null,
     posts: { p: [], r: [] },
     user: { },
     cPost: { },
