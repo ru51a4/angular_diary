@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://comfortable-volleyball.surge.sh
+http://shaggy-toothbrush.surge.sh

@@ -26,14 +26,11 @@ export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
   constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
     this.storeState$.pipe(takeUntil(this.destroy$)).subscribe((data)=>{
-      console.log({data}) 
-    })
-    this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
-      data = data.resolver;
       this.posts = data.posts.p;
       this.replys = data.posts.r;
       this.postForm.reset();
     })
+    
   }
 
   ngAfterContentChecked() {
@@ -68,7 +65,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
   }
 
   fetchData() {
-    //this.store.dispatch(fetchPosts({ id: this.route.snapshot.params["id"] }));
+    this.store.dispatch(fetchPosts({ id: this.route.snapshot.params["id"] }));
     this.postForm.reset();
   }
 
@@ -99,6 +96,5 @@ export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
     this.store.dispatch(loadPosts(null));
     this.destroy$.next(true);
     this.destroy$.complete();
-
   }
 }
