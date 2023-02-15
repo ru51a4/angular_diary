@@ -13,6 +13,7 @@ import { storeReducer } from './store/store.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreEffects } from './store/store.effects';
 import { DiaryResolver } from './pages/diary/diary.resolver';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { DiaryResolver } from './pages/diary/diary.resolver';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatProgressBarModule,
     StoreModule.forRoot({ user: storeReducer, posts: storeReducer, diarys: storeReducer }),
     EffectsModule.forRoot([StoreEffects]) 
   ],

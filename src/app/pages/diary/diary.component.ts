@@ -1,7 +1,7 @@
-import { AfterContentChecked, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService } from "../../api.service";
 import { ActivatedRoute, NavigationStart, Router } from "@angular/router";
-import { filter, Observable, Subject } from "rxjs";
+import { filter, Observable, Subject, takeUntil } from "rxjs";
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { PostComponent } from "./post/post.component";
@@ -10,7 +10,7 @@ import { PostImageComponent } from "./post-image/post-image.component";
 import { Store } from '@ngrx/store';
 import { selectPosts } from 'src/app/store/store.selectors';
 import { fetchPosts, loadDiarys } from "../../store/store.actions";
-import { createPost } from '../../store/store.actions';
+import { createPost, loadPosts, loading } from '../../store/store.actions';
 
 @Component({
   selector: 'app-diary',
@@ -18,14 +18,17 @@ import { createPost } from '../../store/store.actions';
   styleUrls: ['./diary.component.css'],
 })
 
-export class DiaryComponent implements OnInit, AfterContentChecked {
+export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
 
-  storeState$: Observable<any>;
+  storeState$: Observable<any>; 
+  destroy$ = new Subject<boolean>();
 
   constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
-
-    this.route.data.subscribe((data: any) => {
+    this.storeState$.pipe(takeUntil(this.destroy$)).subscribe((data)=>{
+      console.log({data})
+    })
+    this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       data = data.resolver;
       this.posts = data.posts.p;
       this.replys = data.posts.r;
@@ -91,5 +94,12 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   add() {
     let message = this.postForm.value.message;
     this.store.dispatch(createPost({ diaryId: this.route.snapshot.params['id'], message: message, id: this.route.snapshot.params['id'] }));
+  }
+  ngOnDestroy() {
+    this.store.dispatch(loading({payload: false}));
+    this.store.dispatch(loadPosts(null));
+    this.destroy$.next(true);
+    this.destroy$.complete();
+
   }
 }

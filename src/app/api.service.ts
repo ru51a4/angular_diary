@@ -11,7 +11,7 @@ import { SetUser } from "./store/store.actions";
 })
 export class ApiService {
   public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru/api";
-
+  public loading = false;
   constructor(public global: GlobalService, public store: Store<any>, private http: HttpClient, private router: Router) {
   }
 

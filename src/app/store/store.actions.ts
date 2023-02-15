@@ -20,3 +20,5 @@ export const loadPost = createAction('[Diary Component] Load post', props<any>()
 
 export const editPost = createAction('[Edit Component] Edit post', props<any>());
 export const deletePost = createAction('[Edit Component] Delete post', props<any>());
+
+export const loading = createAction('[Diary Component] loading', props<any>());

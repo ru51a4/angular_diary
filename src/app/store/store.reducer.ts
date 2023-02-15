@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadDiarys, loadPosts, loadPost, SetUser} from './store.actions';
+import { loading, loadDiarys, loadPosts, loadPost, SetUser} from './store.actions';
 
 export const initialState = {
     diarys: { p: [], d: [] },
     posts: { p: [], r: [] },
     user: { },
     cPost: { },
+    loading: false
 };
 
 export const storeReducer = createReducer(
@@ -21,6 +22,9 @@ export const storeReducer = createReducer(
     }),
     on(loadPost, (state, data) => {
         return {...state, cPost: data.payload}
+    }),
+    on(loading, (state, data) => {
+        return {...state, loading: data.payload}
     }),
 
 );

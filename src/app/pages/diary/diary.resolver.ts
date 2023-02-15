@@ -4,7 +4,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Resolve } from '@angular/router
 import { Observable, of, take } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { selectPosts } from 'src/app/store/store.selectors';
-import { fetchPosts } from 'src/app/store/store.actions';
+import { fetchPosts, loading } from 'src/app/store/store.actions';
 
 
 @Injectable()
@@ -13,8 +13,9 @@ export class DiaryResolver implements Resolve<any> {
    }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    this.store.dispatch(loading({payload: true}));
     this.store.dispatch(fetchPosts({ id: route.paramMap.get('id') }));
-    return this.store.select(selectPosts).pipe(take(1));
+    return this.store.select(selectPosts)
   }
 
 

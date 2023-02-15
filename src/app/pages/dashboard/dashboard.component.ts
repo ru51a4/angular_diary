@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ApiService } from "../../api.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { Store } from '@ngrx/store';
-import { fetchDiarys, loadDiarys } from "./../../store/store.actions";
+import { fetchDiarys, loadDiarys, loading } from "./../../store/store.actions";
 import { selectDiarys } from 'src/app/store/store.selectors';
 import { filter, Observable, Subject, takeUntil } from "rxjs";
 
@@ -44,6 +44,8 @@ export class DashboardComponent implements OnInit {
   }
 
   go(n: any) {
+    this.store.dispatch(loading({payload: false}));
+    
     this.router.navigate(['dashboard', n], {})
     window.scroll({
       top: 0,

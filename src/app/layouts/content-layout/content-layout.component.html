@@ -128,7 +128,7 @@
     }
   </style>
 
-
+<mat-progress-bar *ngIf="(storeState$|async)?.loading && !(storeState$|async)?.posts" mode="indeterminate"></mat-progress-bar>
 <div class="container py-4">
 
   <header class="pb-3 mb-4 border-bottom d-flex flex-row justify-content-between">
