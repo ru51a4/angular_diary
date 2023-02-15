@@ -26,7 +26,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked, OnDestroy {
   constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
     this.storeState$.pipe(takeUntil(this.destroy$)).subscribe((data)=>{
-      console.log({data})
+      console.log({data}) 
     })
     this.route.data.pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       data = data.resolver;

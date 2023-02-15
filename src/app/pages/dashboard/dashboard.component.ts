@@ -43,9 +43,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  go(n: any) {
-    this.store.dispatch(loading({payload: false}));
-    
+  go(n: any) {    
     this.router.navigate(['dashboard', n], {})
     window.scroll({
       top: 0,

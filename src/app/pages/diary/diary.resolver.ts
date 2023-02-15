@@ -13,7 +13,6 @@ export class DiaryResolver implements Resolve<any> {
    }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    this.store.dispatch(loading({payload: true}));
     this.store.dispatch(fetchPosts({ id: route.paramMap.get('id') }));
     return this.store.select(selectPosts)
   }

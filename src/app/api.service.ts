@@ -5,6 +5,7 @@ import { GlobalService } from "./global.service";
 import { Router } from "@angular/router";
 import { Store } from '@ngrx/store';
 import { SetUser } from "./store/store.actions";
+import { HTTPService } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { SetUser } from "./store/store.actions";
 export class ApiService {
   public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru/api";
   public loading = false;
-  constructor(public global: GlobalService, public store: Store<any>, private http: HttpClient, private router: Router) {
+  constructor(public http: HTTPService, public global: GlobalService, public store: Store<any>, private router: Router) {
   }
 
   public userToken: any = ""
@@ -39,12 +40,13 @@ export class ApiService {
     } else if (localStorage.getItem("jwt")) {
       this.userToken = localStorage.getItem("jwt");
     }
-    let check: any = await this.http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).toPromise();
-    if (check?.user?.name) {
-      this.store.dispatch(SetUser(check.user));
-    } else {
-      this.logout();
-    }
+    this.http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).subscribe((check: any) => {
+      if (check?.user?.name) {
+        this.store.dispatch(SetUser(check.user));
+      } else {
+        this.logout();
+      }
+    });
   }
 
   logout() {

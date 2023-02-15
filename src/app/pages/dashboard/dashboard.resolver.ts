@@ -13,7 +13,6 @@ export class DashboardResolver implements Resolve<any> {
    }
 
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
-    this.store.dispatch(loading({payload: true}));
     return of(true);
   }
 
