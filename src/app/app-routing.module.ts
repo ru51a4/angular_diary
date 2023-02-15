@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {ContentLayoutComponent} from './layouts/content-layout/content-layout.component';
 import {AuthGuard} from "./auth.guard";
+import { DiaryResolver } from './pages/diary/diary.resolver';
 
 
 const routes: Routes = [{
@@ -16,7 +17,8 @@ const routes: Routes = [{
     { 
       path: 'diary/:id',
       loadChildren: () => import('./pages/diary/diary.module').then(m => m.DiaryModule),
-      canActivate: [AuthGuard]
+      canActivate: [AuthGuard],
+      resolve: { resolver: DiaryResolver }
     },
     {
       path: 'login',

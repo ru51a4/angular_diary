@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { storeReducer } from './store/store.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreEffects } from './store/store.effects';
+import { DiaryResolver } from './pages/diary/diary.resolver';
 
 
 @NgModule({
@@ -24,9 +25,9 @@ import { StoreEffects } from './store/store.effects';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot({ user: storeReducer, posts: storeReducer, diarys: storeReducer }),
-    EffectsModule.forRoot([StoreEffects])
+    EffectsModule.forRoot([StoreEffects]) 
   ],
-  providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }],
+  providers: [{ provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }, DiaryResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {

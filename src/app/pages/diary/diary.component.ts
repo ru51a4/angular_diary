@@ -9,8 +9,8 @@ import { GlobalService } from "../../global.service";
 import { PostImageComponent } from "./post-image/post-image.component";
 import { Store } from '@ngrx/store';
 import { selectPosts } from 'src/app/store/store.selectors';
-import { fetchPosts, loadDiarys } from "./../../store/store.actions";
-import { createPost } from './../../store/store.actions';
+import { fetchPosts, loadDiarys } from "../../store/store.actions";
+import { createPost } from '../../store/store.actions';
 
 @Component({
   selector: 'app-diary',
@@ -24,7 +24,9 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
 
   constructor(private store: Store<any>, public api: ApiService, private route: ActivatedRoute, public dialog: MatDialog, public global: GlobalService) {
     this.storeState$ = this.store.select(selectPosts);
-    this.storeState$.subscribe((data) => {
+
+    this.route.data.subscribe((data: any) => {
+      data = data.resolver;
       this.posts = data.posts.p;
       this.replys = data.posts.r;
       this.postForm.reset();
@@ -63,7 +65,7 @@ export class DiaryComponent implements OnInit, AfterContentChecked {
   }
 
   fetchData() {
-    this.store.dispatch(fetchPosts({ id: this.route.snapshot.params["id"] }));
+    //this.store.dispatch(fetchPosts({ id: this.route.snapshot.params["id"] }));
     this.postForm.reset();
   }
 
