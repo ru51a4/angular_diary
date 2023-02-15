@@ -13,7 +13,7 @@ import { HTTPService } from './http.service';
 export class ApiService {
   public apiUrl = "http://laraveldiary.1123875-cc97019.tw1.ru/api";
   public loading = false;
-  constructor(public http: HTTPService, public global: GlobalService, public store: Store<any>, private router: Router) {
+  constructor(private _http: HttpClient, public http: HTTPService, public global: GlobalService, public store: Store<any>, private router: Router) {
   }
 
   public userToken: any = ""
@@ -40,13 +40,12 @@ export class ApiService {
     } else if (localStorage.getItem("jwt")) {
       this.userToken = localStorage.getItem("jwt");
     }
-    this.http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).subscribe((check: any) => {
-      if (check?.user?.name) {
-        this.store.dispatch(SetUser(check.user));
-      } else {
-        this.logout();
-      }
-    });
+    let check: any = await this._http.post(`${this.apiUrl}/get_user`, { token: this.userToken }).toPromise();
+    if (check?.user?.name) {
+      this.store.dispatch(SetUser(check.user));
+    } else {
+      this.logout();
+    }
   }
 
   logout() {

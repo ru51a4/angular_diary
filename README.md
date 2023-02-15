@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://painstaking-dust.surge.sh
+http://comfortable-volleyball.surge.sh
