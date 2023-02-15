@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://difficult-stick.surge.sh
+http://pointless-dogs.surge.sh
