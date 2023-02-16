@@ -1,2 +1,2 @@
 фронт дневничков на angular  
-http://shaggy-toothbrush.surge.sh
+http://bouncy-pipe.surge.sh
